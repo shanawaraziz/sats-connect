@@ -11,11 +11,19 @@ describe('sats-connect getAddress function', () => {
   let page: Page;
 
   before(async () => {
-    browser = await chromium.launch();
+    // Open the browser in headed mode (with a visible UI)
+    browser = await chromium.launch({ headless: false });
     context = await browser.newContext();
     page = await context.newPage();
+
+    // Add a wait for the page to load
+    await page.goto('about:blank'); // Load a blank page
   });
+
   after(async () => {
+    // Add a wait before closing the browser
+    await page.waitForTimeout(10000); // Wait for 2 seconds
+
     await browser.close();
   });
 
@@ -29,7 +37,7 @@ describe('sats-connect getAddress function', () => {
         },
       },
       onFinish: (response: GetAddressResponse) => {
-        const { addresses } = response; // Destructure addresses from the response
+        const { addresses } = response;
         console.log(addresses);
         expect(addresses).to.be.an('array');
         // Add more specific assertions as needed
@@ -37,8 +45,16 @@ describe('sats-connect getAddress function', () => {
       onCancel: () => console.log('Request canceled'),
     };
 
+    // Add a wait before executing the test
+    await page.waitForTimeout(1000); // Wait for 1 second
+
     const response = await page.evaluate(async (options) => {
       return await getAddress(options);
     }, getAddressOptions);
+
+    // Add assertions based on the response
+    // For example, you can check response properties, types, and values.
+    expect(response).to.be.an('object');
+    // Add more specific assertions as needed
   });
 });
