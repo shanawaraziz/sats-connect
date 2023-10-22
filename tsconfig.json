@@ -2,7 +2,7 @@
   "compilerOptions": {
     "incremental": true,
     "target": "es2020",
-    "module": "commonjs",
+    "module": "es2022",
     "moduleResolution": "node",
     "baseUrl": ".",
     "declaration": true,
@@ -16,6 +16,6 @@
     "allowUnreachableCode": false,
     "skipLibCheck": true
   },
-  "include": ["./src"],
-  "exclude": ["./tests", "./dist"]
+  "include": ["./src", "./tests"],
+  "exclude": ["./dist"]
 }
